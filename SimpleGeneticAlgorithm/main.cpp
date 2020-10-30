@@ -22,69 +22,85 @@ int GenerateFitnessValues(individual ind)
 	}
 
 	return fitness;
-
 }
 
-
-//void GenerateOffspring()
-//{
-//	for (int i = 0; i < P; i++) {
-//		int parent1 = rand() % P;
-//		int parent2 = rand() % P;
-//		if (population[parent1].fitness > population[parent2].fitness)
-//			offspring[i] = population[parent1];
-//		else
-//			offspring[i] = population[parent2]
-//	}
-//}
 
 void PrintPopulationFitness(individual population[P])
 {
 
 	int t = 0;
 
-	std::cout << "Population Fitness" << std::endl;
+	std::cout <<  "( ";
 
 	for (int i = 0; i < P; i++)
 	{
-		std::cout << population[i].fitness << " ";
+		std::cout << "" << population[i].fitness << " ";
 
 		t = t + population[i].fitness;
 
 	}
-
-	std::cout << " Total Fitness - " << t << std::endl << std::endl;
-
-
+	std::cout << ") Total Fitness - " << t << std::endl;
 }
+
+
+void PrintPopulationGenes(individual population[P])
+{
+
+	int t = 0;
+
+	for (int i = 0; i < P; i++)
+	{
+		std::cout << "Individual " << i << " - ";
+		for (int j = 0; j < N; j++)
+		{
+
+			std::cout << "" << population[i].gene[j];
+
+		}
+
+		std::cout << std::endl;
+	}
+	
+}
+
+
+
+
 
 
 int main()
 { 
 
-	//5 Generations
-	for (int i = 0; i < 5; ++i) {
-		
-		individual population[P];
-		individual offspring[P];
+	srand(time(0));
 
+	individual population[P];
+	individual offspring[P];
 
-
-		for (int i = 0; i < P; i++)
+	for (int i = 0; i < P; i++)
+	{
+		for (int j = 0; j < N; j++)
 		{
-			for (int j = 0; j < N; j++)
-			{
-				population[i].gene[j] = rand() % 2;
-			}
-			population[i].fitness = 0;
+			population[i].gene[j] = rand() % 2;
 		}
+		population[i].fitness = 0;
+	}
+
+	std::cout << "Initial Genes" << std::endl;
+	PrintPopulationGenes(population);
+
+	//5 Generations
+	for (int i = 0; i < 15; ++i) {
+		
+		
+
+		std::cout << "--------------------------------------------------------------Generation" << i + 1<< "-------------------------------------------------------" << std::endl;
 
 		for (int i = 0; i < P; i++)
 		{
 			population[i].fitness = GenerateFitnessValues(population[i]);
 		}
 
-
+		std::cout << "Population" << std::endl;
 		PrintPopulationFitness(population);
 
 		for (int i = 0; i < P; i++) {
@@ -96,10 +112,22 @@ int main()
 				offspring[i] = population[parent2];
 		}
 
+
+		std::cout << "Offspring" << std::endl;
 		PrintPopulationFitness(offspring);
 
+		//Copy offspring to population
+
+		for (int i = 0; i < P; i++)
+		{
+			population[i] = offspring[i];
+		}
+
 	}
-	
+
+	std::cout << "Final Genes" << std::endl;
+	PrintPopulationGenes(population);
+
 	return 0;
 
 }
