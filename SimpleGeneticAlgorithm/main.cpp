@@ -3,7 +3,7 @@
 #include <time.h>
 
 const int N = 10;
-const int P = 50;
+const int P = 100;
 
 
 typedef struct {
