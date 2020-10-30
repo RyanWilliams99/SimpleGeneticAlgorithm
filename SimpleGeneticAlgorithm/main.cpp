@@ -76,6 +76,7 @@ int main()
 	individual population[P];
 	individual offspring[P];
 
+	//Create initial population
 	for (int i = 0; i < P; i++)
 	{
 		for (int j = 0; j < N; j++)
@@ -95,6 +96,7 @@ int main()
 
 		std::cout << "--------------------------------------------------------------Generation" << i + 1<< "-------------------------------------------------------" << std::endl;
 
+		//Get fitness values for each individual
 		for (int i = 0; i < P; i++)
 		{
 			population[i].fitness = GenerateFitnessValues(population[i]);
@@ -103,6 +105,7 @@ int main()
 		std::cout << "Population" << std::endl;
 		PrintPopulationFitness(population);
 
+		//Selection
 		for (int i = 0; i < P; i++) {
 			int parent1 = rand() % P;
 			int parent2 = rand() % P;
@@ -117,7 +120,6 @@ int main()
 		PrintPopulationFitness(offspring);
 
 		//Copy offspring to population
-
 		for (int i = 0; i < P; i++)
 		{
 			population[i] = offspring[i];
