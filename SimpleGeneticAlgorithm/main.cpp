@@ -2,9 +2,10 @@
 #include <iostream>
 #include <time.h>
 
-const int N = 10;
-const int P = 100;
-
+const int N = 50;
+const int P = 50;
+const int GENERATIONS = 50;
+const float MUTRATE = 1;
 
 typedef struct {
 	int gene[N];
@@ -46,8 +47,6 @@ void PrintPopulationFitness(individual population[P])
 void PrintPopulationGenes(individual population[P])
 {
 
-	int t = 0;
-
 	for (int i = 0; i < P; i++)
 	{
 		std::cout << "Individual " << i << " - ";
@@ -60,12 +59,7 @@ void PrintPopulationGenes(individual population[P])
 
 		std::cout << std::endl;
 	}
-	
 }
-
-
-
-
 
 
 int main()
@@ -75,6 +69,8 @@ int main()
 
 	individual population[P];
 	individual offspring[P];
+
+
 
 	//Create initial population
 	for (int i = 0; i < P; i++)
@@ -90,11 +86,11 @@ int main()
 	PrintPopulationGenes(population);
 
 	//5 Generations
-	for (int i = 0; i < 15; ++i) {
+	for (int generation = 0; generation < GENERATIONS; ++generation) {
 		
 		
 
-		std::cout << "--------------------------------------------------------------Generation" << i + 1<< "-------------------------------------------------------" << std::endl;
+		std::cout << "--------------------------------------------------------------Generation" << generation + 1<< "-------------------------------------------------------" << std::endl;
 
 		//Get fitness values for each individual
 		for (int i = 0; i < P; i++)
@@ -116,6 +112,29 @@ int main()
 		}
 
 
+		//Crossover
+		individual temp;
+		for (int i = 0; i < P; i += 2) {
+			temp = offspring[i];
+			int crosspoint = rand() % N;
+			for (int j = crosspoint; j < N; j++) {
+				offspring[i].gene[j] = offspring[i + 1].gene[j];
+				offspring[i + 1].gene[j] = temp.gene[j];
+			}
+		}
+
+
+		//Mutation
+		for (int i = 0; i < P; i++) {
+			for (int j = 0; j < N; j++) {
+				if (rand() < MUTRATE) {
+					if (offspring[i].gene[j] == 1) offspring[i].gene[j] = 0;
+					else offspring[i].gene[j] = 1;
+				}
+			}
+		}
+
+
 		std::cout << "Offspring" << std::endl;
 		PrintPopulationFitness(offspring);
 
@@ -127,8 +146,8 @@ int main()
 
 	}
 
-	std::cout << "Final Genes" << std::endl;
-	PrintPopulationGenes(population);
+	//std::cout << "Final Genes" << std::endl;
+	//PrintPopulationGenes(population);
 
 	return 0;
 
