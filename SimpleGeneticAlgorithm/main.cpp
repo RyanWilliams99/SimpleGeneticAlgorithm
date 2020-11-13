@@ -15,20 +15,17 @@ typedef struct {
 
 int GenerateFitnessValues(individual ind)
 {
-
 	int fitness = 0;
 	for (int i = 0; i < N; i++) {
 		if (ind.gene[i] == 1)
 			fitness += 1;
 	}
-
 	return fitness;
 }
 
 
 void PrintPopulationFitness(individual population[P])
 {
-
 	int t = 0;
 
 	std::cout <<  "( ";
@@ -64,7 +61,6 @@ void PrintPopulationGenes(individual population[P])
 
 int main()
 { 
-
 	srand(time(0));
 
 	individual population[P];
